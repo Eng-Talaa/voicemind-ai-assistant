@@ -56,19 +56,6 @@ gTTS
 ↓  
 Voice Response
 
-## Project Structure
-
-    VoiceMind/
-    │
-    ├── app.py
-    ├── assistant_core.py
-    ├── main.py
-    ├── index.html
-    ├── requirements.txt
-    ├── .env
-    ├── .gitignore
-    └── README.md
-
 ## Main Components
 
 ### Whisper
@@ -104,10 +91,6 @@ I'm doing well! How can I help you?
 
 **VoiceMind:**  
 أنا بخير! كيف يمكنني مساعدتك؟
-
-## Security
-
-The Cohere API key is stored as an environment variable and is not included in the repository.
 
 ## Future Improvements
 
