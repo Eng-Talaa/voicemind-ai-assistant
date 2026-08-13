@@ -100,3 +100,11 @@ I'm doing well! How can I help you?
 - Persistent conversation history
 - Cloud deployment
 - Improved speech recognition
+
+## Project Preview 
+
+![Main Interface](screenshots/Screenshot1.png)
+
+![Settings - Light Mode](screenshots/Screenshot2.png)
+
+![Settings - Dark Mode](screenshots/Screenshot3.png)
