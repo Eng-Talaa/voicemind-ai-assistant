@@ -1,0 +1,2387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VoiceMind — AI Voice Assistant</title>
+
+<style>
+/* =========================================================
+   VOICEMIND — CLEAN MODERN UI
+   ========================================================= */
+
+:root {
+    --bg: #f5f8fc;
+    --bg-soft: #ffffff;
+    --card: #ffffff;
+    --card-soft: #f8fafc;
+
+    --text: #172033;
+    --text-soft: #667085;
+    --text-faint: #98a2b3;
+
+    --primary: #2563eb;
+    --primary-soft: #eaf2ff;
+
+    --border: #e4e9f0;
+
+    --user-bg: #edf4ff;
+    --user-border: #cfe0ff;
+
+    --ai-bg: #f8fafc;
+    --ai-border: #e3e8ef;
+
+    --danger: #dc3545;
+
+    --shadow: 0 12px 35px rgba(25, 45, 75, 0.08);
+
+    --radius-lg: 22px;
+    --radius-md: 15px;
+    --radius-sm: 10px;
+}
+
+body.dark {
+    --bg: #0e1522;
+    --bg-soft: #121b2a;
+    --card: #162235;
+    --card-soft: #1b293d;
+
+    --text: #f4f7fb;
+    --text-soft: #aeb9ca;
+    --text-faint: #718096;
+
+    --primary: #5b9cff;
+    --primary-soft: #172c4d;
+
+    --border: #26364d;
+
+    --user-bg: #172c4d;
+    --user-border: #31588f;
+
+    --ai-bg: #1a2638;
+    --ai-border: #2a3a50;
+
+    --shadow: 0 15px 40px rgba(0,0,0,.25);
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    background:
+        radial-gradient(
+            circle at 50% -20%,
+            rgba(37, 99, 235, 0.08),
+            transparent 45%
+        ),
+        var(--bg);
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    transition:
+        background .25s ease,
+        color .25s ease;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.app {
+    width: min(1050px, 94%);
+    margin: 0 auto;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+header {
+    padding: 30px 0 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.brand-name {
+    font-size: 24px;
+    font-weight: 750;
+    letter-spacing: -0.5px;
+}
+
+.brand-subtitle {
+    font-size: 13px;
+    color: var(--text-soft);
+}
+
+.creator {
+    margin-top: 4px;
+
+    font-size: 12px;
+    color: var(--text-faint);
+}
+
+.creator strong {
+    color: var(--text-soft);
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   SOCIAL ICONS
+   ========================================================= */
+
+.socials {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.social-link {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--card);
+
+    color: var(--text-soft);
+
+    text-decoration: none;
+
+    transition:
+        transform .15s ease,
+        border-color .15s ease,
+        color .15s ease,
+        background .15s ease;
+}
+
+.social-link:hover {
+    transform: translateY(-2px);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.social-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+
+    border: 1px solid var(--border);
+    border-radius: 11px;
+
+    background: var(--card);
+
+    color: var(--text-soft);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: .15s ease;
+}
+
+.icon-btn:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.icon-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 15px;
+
+    font-size: 13px;
+    color: var(--text-soft);
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #21c17a;
+
+    box-shadow: 0 0 9px rgba(33,193,122,.35);
+}
+
+.status-dot.recording {
+    background: #ef4444;
+    box-shadow: 0 0 10px rgba(239,68,68,.45);
+}
+
+.status-dot.processing {
+    background: #f59e0b;
+}
+
+.status-dot.speaking {
+    background: var(--primary);
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+    text-align: center;
+
+    padding: 45px 0 30px;
+}
+
+.orb-wrapper {
+    width: 230px;
+    height: 230px;
+
+    margin: 0 auto;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.orb-ring {
+    position: absolute;
+
+    border: 1px solid rgba(37,99,235,.16);
+
+    border-radius: 50%;
+
+    transition: .25s ease;
+}
+
+.orb-ring.one {
+    width: 100%;
+    height: 100%;
+}
+
+.orb-ring.two {
+    width: 78%;
+    height: 78%;
+}
+
+.mic-button {
+    position: relative;
+    z-index: 2;
+
+    width: 130px;
+    height: 130px;
+
+    border-radius: 50%;
+
+    border: 1px solid var(--border);
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--card),
+            var(--card-soft)
+        );
+
+    color: var(--primary);
+
+    box-shadow:
+        0 20px 45px rgba(37,99,235,.12),
+        inset 0 0 0 5px rgba(37,99,235,.025);
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        transform .18s ease,
+        box-shadow .25s ease;
+}
+
+.mic-button:hover {
+    transform: scale(1.035);
+
+    box-shadow:
+        0 22px 50px rgba(37,99,235,.18),
+        inset 0 0 0 5px rgba(37,99,235,.035);
+}
+
+.mic-button:active {
+    transform: scale(.97);
+}
+
+.mic-button svg {
+    width: 40px;
+    height: 40px;
+}
+
+
+/* Recording */
+
+.orb-wrapper.recording .orb-ring {
+    border-color: rgba(239,68,68,.35);
+}
+
+.orb-wrapper.recording .mic-button {
+    color: #ef4444;
+
+    box-shadow:
+        0 0 0 8px rgba(239,68,68,.06),
+        0 0 35px rgba(239,68,68,.18);
+}
+
+
+/* Processing */
+
+.orb-wrapper.processing .orb-ring {
+    border-color: rgba(245,158,11,.35);
+}
+
+.orb-wrapper.processing .mic-button {
+    color: #f59e0b;
+    animation: pulse 1.3s infinite;
+}
+
+
+/* Speaking */
+
+.orb-wrapper.speaking .orb-ring {
+    border-color: rgba(37,99,235,.35);
+}
+
+.orb-wrapper.speaking .mic-button {
+    color: var(--primary);
+
+    box-shadow:
+        0 0 0 8px rgba(37,99,235,.05),
+        0 0 35px rgba(37,99,235,.18);
+}
+
+
+@keyframes pulse {
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.045);
+    }
+}
+
+
+.hero-title {
+    margin: 25px 0 7px;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.hero-description {
+    max-width: 430px;
+
+    margin: 0 auto;
+
+    color: var(--text-soft);
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CONVERSATION
+   ========================================================= */
+
+.conversation {
+    margin-top: 15px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow);
+
+    overflow: hidden;
+}
+
+.conversation-header {
+    padding: 18px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.conversation-title {
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.new-chat {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 8px 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--card-soft);
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition: .15s ease;
+}
+
+.new-chat:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.new-chat svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+/* =========================================================
+   MESSAGES
+   ========================================================= */
+
+.messages {
+    min-height: 230px;
+    max-height: 450px;
+
+    padding: 22px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    overflow-y: auto;
+}
+
+.empty-state {
+    min-height: 220px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    color: var(--text-faint);
+}
+
+.empty-state svg {
+    width: 38px;
+    height: 38px;
+
+    margin-bottom: 12px;
+}
+
+.empty-title {
+    font-size: 14px;
+    color: var(--text-soft);
+
+    margin-bottom: 5px;
+}
+
+.empty-description {
+    font-size: 12px;
+}
+
+
+.message {
+    max-width: 75%;
+
+    padding: 12px 15px;
+
+    border-radius: var(--radius-md);
+
+    font-size: 14px;
+    line-height: 1.65;
+
+    animation: messageIn .22s ease;
+}
+
+@keyframes messageIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.user {
+    align-self: flex-end;
+
+    background: var(--user-bg);
+
+    border: 1px solid var(--user-border);
+
+    border-bottom-right-radius: 5px;
+}
+
+.message.ai {
+    align-self: flex-start;
+
+    background: var(--ai-bg);
+
+    border: 1px solid var(--ai-border);
+
+    border-bottom-left-radius: 5px;
+}
+
+.message.system {
+    align-self: center;
+
+    font-size: 12px;
+
+    color: var(--text-faint);
+}
+
+.message-time {
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 10px;
+
+    color: var(--text-faint);
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    padding: 24px 0 30px;
+
+    text-align: center;
+
+    color: var(--text-faint);
+
+    font-size: 11px;
+}
+
+footer strong {
+    color: var(--text-soft);
+}
+
+
+/* =========================================================
+   SETTINGS DRAWER
+   ========================================================= */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(5, 12, 24, .42);
+
+    backdrop-filter: blur(4px);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: .2s ease;
+
+    z-index: 10;
+}
+
+.overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.drawer {
+    position: fixed;
+
+    top: 0;
+    right: 0;
+
+    width: min(370px, 90vw);
+    height: 100vh;
+
+    padding: 25px;
+
+    background: var(--card);
+
+    border-left: 1px solid var(--border);
+
+    box-shadow: -20px 0 50px rgba(0,0,0,.12);
+
+    transform: translateX(100%);
+
+    transition: transform .28s ease;
+
+    z-index: 11;
+
+    overflow-y: auto;
+}
+
+.drawer.open {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+}
+
+.drawer-title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.close-btn {
+    width: 34px;
+    height: 34px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--card-soft);
+
+    color: var(--text-soft);
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* Settings sections */
+
+.setting-section {
+    padding: 18px 0;
+
+    border-top: 1px solid var(--border);
+}
+
+.setting-section:first-of-type {
+    border-top: none;
+}
+
+.setting-label {
+    font-size: 13px;
+    font-weight: 650;
+
+    margin-bottom: 5px;
+}
+
+.setting-description {
+    font-size: 11px;
+
+    color: var(--text-faint);
+
+    line-height: 1.6;
+
+    margin-bottom: 12px;
+}
+
+
+/* Appearance */
+
+.theme-options {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+
+    gap: 8px;
+}
+
+.theme-option {
+    padding: 9px 5px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--card-soft);
+
+    color: var(--text-soft);
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.theme-option.active {
+    color: var(--primary);
+
+    border-color: var(--primary);
+
+    background: var(--primary-soft);
+}
+
+
+/* Toggle */
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toggle {
+    width: 42px;
+    height: 23px;
+
+    border: none;
+
+    border-radius: 999px;
+
+    background: var(--border);
+
+    cursor: pointer;
+
+    position: relative;
+
+    transition: .2s ease;
+}
+
+.toggle::after {
+    content: "";
+
+    position: absolute;
+
+    width: 17px;
+    height: 17px;
+
+    top: 3px;
+    left: 3px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    transition: .2s ease;
+}
+
+.toggle.active {
+    background: var(--primary);
+}
+
+.toggle.active::after {
+    transform: translateX(19px);
+}
+
+
+/* Normal setting buttons */
+
+.setting-button {
+    width: 100%;
+
+    padding: 11px 13px;
+
+    border-radius: 9px;
+
+    border: 1px solid var(--border);
+
+    background: var(--card-soft);
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition: .15s ease;
+}
+
+.setting-button:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.setting-button.danger:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+
+/* Creator */
+
+.creator-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    background: var(--card-soft);
+}
+
+.creator-name {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.creator-links {
+    display: flex;
+    gap: 7px;
+}
+
+.creator-links a {
+    width: 29px;
+    height: 29px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--text-soft);
+
+    text-decoration: none;
+}
+
+.creator-links a:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.creator-links svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+/* Toast */
+
+.toast {
+    position: fixed;
+
+    left: 50%;
+    bottom: 25px;
+
+    transform: translate(-50%, 20px);
+
+    padding: 10px 17px;
+
+    border-radius: 999px;
+
+    background: var(--text);
+
+    color: var(--bg);
+
+    font-size: 12px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: .25s ease;
+
+    z-index: 20;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    header {
+        padding-top: 20px;
+    }
+
+    .brand-name {
+        font-size: 21px;
+    }
+
+    .hero {
+        padding-top: 30px;
+    }
+
+    .orb-wrapper {
+        width: 190px;
+        height: 190px;
+    }
+
+    .mic-button {
+        width: 110px;
+        height: 110px;
+    }
+
+    .message {
+        max-width: 88%;
+    }
+
+    .socials {
+        display: none;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header>
+
+        <div class="brand">
+
+            <div class="brand-name">
+                VoiceMind
+            </div>
+
+            <div class="brand-subtitle">
+                AI Voice Assistant
+            </div>
+
+            <div class="creator">
+                Created by <strong>Tala Alotaibi</strong>
+            </div>
+
+        </div>
+
+
+        <!-- Small social icons -->
+
+        <div class="socials">
+
+            <!-- LinkedIn -->
+            <a
+                class="social-link"
+                href="https://linkedin.com/in/talaalotaibi"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                title="LinkedIn"
+            >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6.94 8.5H3.5V20h3.44V8.5ZM5.22 3A2.02 2.02 0 1 0 5.2 7.04 2.02 2.02 0 0 0 5.22 3ZM20.5 13.41c0-3.47-1.85-5.09-4.32-5.09-1.99 0-2.88 1.09-3.38 1.86V8.5H9.36V20h3.44v-5.7c0-1.5.28-2.95 2.14-2.95 1.84 0 1.86 1.72 1.86 3.05V20h3.44l.26-6.59Z"/>
+                </svg>
+            </a>
+
+
+            <!-- GitHub -->
+            <a
+                class="social-link"
+                href="https://github.com/Eng-Talaa"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                title="GitHub"
+            >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 .5A11.5 11.5 0 0 0 8.36 22.9c.58.1.79-.25.79-.56v-2.2c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.04 1.78 2.72 1.27 3.39.97.1-.75.4-1.27.73-1.56-2.57-.29-5.28-1.29-5.28-5.74 0-1.27.45-2.31 1.2-3.13-.12-.3-.52-1.49.11-3.1 0 0 .98-.31 3.16 1.2a10.9 10.9 0 0 1 5.75 0c2.18-1.51 3.15-1.2 3.15-1.2.64 1.61.24 2.8.12 3.1.75.82 1.2 1.86 1.2 3.13 0 4.46-2.72 5.44-5.3 5.73.42.36.78 1.08.78 2.18v3.23c0 .31.21.67.8.55A11.5 11.5 0 0 0 12 .5Z"/>
+                </svg>
+            </a>
+
+
+            <!-- Settings -->
+            <button
+                class="icon-btn"
+                id="settingsBtn"
+                aria-label="Settings"
+                title="Settings"
+            >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         STATUS
+         ===================================================== -->
+
+    <div class="status">
+
+        <span
+            class="status-dot"
+            id="statusDot"
+        ></span>
+
+        <span id="statusText">
+            Ready — tap to speak
+        </span>
+
+        <span id="statusTime"></span>
+
+    </div>
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="hero">
+
+        <div
+            class="orb-wrapper"
+            id="orbWrapper"
+        >
+
+            <div class="orb-ring one"></div>
+            <div class="orb-ring two"></div>
+
+
+            <button
+                class="mic-button"
+                id="micButton"
+                aria-label="Start recording"
+            >
+
+                <!-- Microphone -->
+
+                <svg
+                    id="micIcon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" y1="19" x2="12" y2="23"/>
+                    <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+
+
+                <!-- Stop -->
+
+                <svg
+                    id="stopIcon"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    style="display:none"
+                >
+                    <rect
+                        x="7"
+                        y="7"
+                        width="10"
+                        height="10"
+                        rx="1.5"
+                    />
+                </svg>
+
+            </button>
+
+        </div>
+
+
+        <div class="hero-title">
+            Tap the microphone to start
+        </div>
+
+        <div class="hero-description">
+            Speak naturally in Arabic or English.
+            VoiceMind automatically detects your language.
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONVERSATION
+         ===================================================== -->
+
+    <section class="conversation">
+
+        <div class="conversation-header">
+
+            <div class="conversation-title">
+                Conversation
+            </div>
+
+
+            <button
+                class="new-chat"
+                id="newChatBtn"
+            >
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+
+                New Conversation
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="messages"
+            id="messages"
+        >
+
+            <div
+                class="empty-state"
+                id="emptyState"
+            >
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                >
+                    <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h7A2.5 2.5 0 0 1 16 5.5v5A2.5 2.5 0 0 1 13.5 13h-4L6 16v-3.2a2.5 2.5 0 0 1-2-2.45v-4.85Z"/>
+                    <path d="M16 8h1.5A2.5 2.5 0 0 1 20 10.5v5A2.5 2.5 0 0 1 17.5 18h-1.8L13 20v-2"/>
+                </svg>
+
+                <div class="empty-title">
+                    No conversation yet
+                </div>
+
+                <div class="empty-description">
+                    Tap the microphone to get started.
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer>
+        VoiceMind • AI Voice Assistant
+        <br>
+        Created by <strong>Tala Alotaibi</strong>
+    </footer>
+
+</div>
+
+
+<!-- =========================================================
+     SETTINGS OVERLAY
+     ========================================================= -->
+
+<div
+    class="overlay"
+    id="overlay"
+></div>
+
+
+<!-- =========================================================
+     SETTINGS DRAWER
+     ========================================================= -->
+
+<aside
+    class="drawer"
+    id="drawer"
+>
+
+    <div class="drawer-header">
+
+        <div class="drawer-title">
+            Settings
+        </div>
+
+        <button
+            class="close-btn"
+            id="closeDrawer"
+            aria-label="Close settings"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+            >
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+
+    </div>
+
+
+    <!-- Appearance -->
+
+    <div class="setting-section">
+
+        <div class="setting-label">
+            Appearance
+        </div>
+
+        <div class="setting-description">
+            Choose how VoiceMind looks on your device.
+        </div>
+
+        <div class="theme-options">
+
+            <button
+                class="theme-option"
+                data-theme="light"
+            >
+                Light
+            </button>
+
+            <button
+                class="theme-option"
+                data-theme="dark"
+            >
+                Dark
+            </button>
+
+            <button
+                class="theme-option"
+                data-theme="system"
+            >
+                System
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Voice -->
+
+    <div class="setting-section">
+
+        <div class="toggle-row">
+
+            <div>
+
+                <div class="setting-label">
+                    Voice Response
+                </div>
+
+                <div class="setting-description">
+                    Play the assistant's response aloud.
+                </div>
+
+            </div>
+
+            <button
+                class="toggle active"
+                id="voiceToggle"
+                aria-label="Toggle voice response"
+            ></button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Microphone -->
+
+    <div class="setting-section">
+
+        <div class="setting-label">
+            Microphone
+        </div>
+
+        <div class="setting-description">
+            Check whether your browser can access the microphone.
+        </div>
+
+        <button
+            class="setting-button"
+            id="testMicBtn"
+        >
+            Test Microphone
+        </button>
+
+    </div>
+
+
+    <!-- Conversation -->
+
+    <div class="setting-section">
+
+        <div class="setting-label">
+            Conversation
+        </div>
+
+        <div class="setting-description">
+            Clear the current conversation and start fresh.
+        </div>
+
+        <button
+            class="setting-button danger"
+            id="clearConversationBtn"
+        >
+            Clear Conversation
+        </button>
+
+    </div>
+
+
+    <!-- Creator -->
+
+    <div class="setting-section">
+
+        <div class="setting-label">
+            Created by
+        </div>
+
+        <div class="creator-box">
+
+            <div class="creator-name">
+                Tala Alotaibi
+            </div>
+
+
+            <div class="creator-links">
+
+                <!-- LinkedIn -->
+
+                <a
+                    href="https://linkedin.com/in/talaalotaibi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="LinkedIn"
+                    aria-label="LinkedIn"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                    >
+                        <path d="M6.94 8.5H3.5V20h3.44V8.5ZM5.22 3A2.02 2.02 0 1 0 5.2 7.04 2.02 2.02 0 0 0 5.22 3ZM20.5 13.41c0-3.47-1.85-5.09-4.32-5.09-1.99 0-2.88 1.09-3.38 1.86V8.5H9.36V20h3.44v-5.7c0-1.5.28-2.95 2.14-2.95 1.84 0 1.86 1.72 1.86 3.05V20h3.44l.26-6.59Z"/>
+                    </svg>
+
+                </a>
+
+
+                <!-- GitHub -->
+
+                <a
+                    href="https://github.com/Eng-Talaa"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="GitHub"
+                    aria-label="GitHub"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                    >
+                        <path d="M12 .5A11.5 11.5 0 0 0 8.36 22.9c.58.1.79-.25.79-.56v-2.2c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.04 1.78 2.72 1.27 3.39.97.1-.75.4-1.27.73-1.56-2.57-.29-5.28-1.29-5.28-5.74 0-1.27.45-2.31 1.2-3.13-.12-.3-.52-1.49.11-3.1 0 0 .98-.31 3.16 1.2a10.9 10.9 0 0 1 5.75 0c2.18-1.51 3.15-1.2 3.15-1.2.64 1.61.24 2.8.12 3.1.75.82 1.2 1.86 1.2 3.13 0 4.46-2.72 5.44-5.3 5.73.42.36.78 1.08.78 2.18v3.23c0 .31.21.67.8.55A11.5 11.5 0 0 0 12 .5Z"/>
+                    </svg>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+"use strict";
+
+
+/* =========================================================
+   API CONFIG
+   ========================================================= */
+
+const API_BASE_URL = window.location.origin;
+
+const API_PATH = "/api/voice-chat";
+
+const RESET_PATH = "/api/reset";
+
+
+/* =========================================================
+   DOM
+   ========================================================= */
+
+const micButton =
+    document.getElementById("micButton");
+
+const micIcon =
+    document.getElementById("micIcon");
+
+const stopIcon =
+    document.getElementById("stopIcon");
+
+const orbWrapper =
+    document.getElementById("orbWrapper");
+
+const statusDot =
+    document.getElementById("statusDot");
+
+const statusText =
+    document.getElementById("statusText");
+
+const statusTime =
+    document.getElementById("statusTime");
+
+const messagesContainer =
+    document.getElementById("messages");
+
+const emptyState =
+    document.getElementById("emptyState");
+
+const newChatBtn =
+    document.getElementById("newChatBtn");
+
+const settingsBtn =
+    document.getElementById("settingsBtn");
+
+const drawer =
+    document.getElementById("drawer");
+
+const overlay =
+    document.getElementById("overlay");
+
+const closeDrawer =
+    document.getElementById("closeDrawer");
+
+const toast =
+    document.getElementById("toast");
+
+const voiceToggle =
+    document.getElementById("voiceToggle");
+
+const testMicBtn =
+    document.getElementById("testMicBtn");
+
+const clearConversationBtn =
+    document.getElementById("clearConversationBtn");
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+let mediaRecorder = null;
+
+let audioChunks = [];
+
+let stream = null;
+
+let recording = false;
+
+let timerInterval = null;
+
+let recordStart = 0;
+
+let voiceEnabled = true;
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+function showToast(message) {
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2200);
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+function setStatus(state, text) {
+
+    statusText.textContent = text;
+
+    statusDot.className = "status-dot";
+
+    orbWrapper.className = "orb-wrapper";
+
+    if (state) {
+
+        statusDot.classList.add(state);
+
+        orbWrapper.classList.add(state);
+    }
+}
+
+
+/* =========================================================
+   SETTINGS
+   ========================================================= */
+
+function openSettings() {
+
+    drawer.classList.add("open");
+
+    overlay.classList.add("open");
+}
+
+
+function closeSettings() {
+
+    drawer.classList.remove("open");
+
+    overlay.classList.remove("open");
+}
+
+
+settingsBtn.addEventListener(
+    "click",
+    openSettings
+);
+
+closeDrawer.addEventListener(
+    "click",
+    closeSettings
+);
+
+overlay.addEventListener(
+    "click",
+    closeSettings
+);
+
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+const themeButtons =
+    document.querySelectorAll(".theme-option");
+
+
+function applyTheme(theme) {
+
+    if (theme === "dark") {
+
+        document.body.classList.add("dark");
+
+    }
+
+    else if (theme === "light") {
+
+        document.body.classList.remove("dark");
+
+    }
+
+    else {
+
+        const prefersDark =
+            window.matchMedia(
+                "(prefers-color-scheme: dark)"
+            ).matches;
+
+        document.body.classList.toggle(
+            "dark",
+            prefersDark
+        );
+    }
+
+    localStorage.setItem(
+        "voicemind-theme",
+        theme
+    );
+
+    themeButtons.forEach(button => {
+
+        button.classList.toggle(
+            "active",
+            button.dataset.theme === theme
+        );
+
+    });
+}
+
+
+const savedTheme =
+    localStorage.getItem("voicemind-theme") || "light";
+
+applyTheme(savedTheme);
+
+
+themeButtons.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            applyTheme(
+                button.dataset.theme
+            );
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   VOICE TOGGLE
+   ========================================================= */
+
+voiceToggle.addEventListener(
+    "click",
+    () => {
+
+        voiceEnabled = !voiceEnabled;
+
+        voiceToggle.classList.toggle(
+            "active",
+            voiceEnabled
+        );
+
+        showToast(
+            voiceEnabled
+                ? "Voice response enabled"
+                : "Voice response disabled"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   TIMER
+   ========================================================= */
+
+function formatTime(milliseconds) {
+
+    const seconds =
+        Math.floor(milliseconds / 1000);
+
+    const minutes =
+        String(
+            Math.floor(seconds / 60)
+        ).padStart(2, "0");
+
+    const remainingSeconds =
+        String(
+            seconds % 60
+        ).padStart(2, "0");
+
+    return `${minutes}:${remainingSeconds}`;
+}
+
+
+/* =========================================================
+   ADD MESSAGE
+   ========================================================= */
+
+function addMessage(role, text) {
+
+    if (emptyState) {
+
+        emptyState.remove();
+
+    }
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        `message ${role}`;
+
+    const textElement =
+        document.createElement("span");
+
+    textElement.textContent = text;
+
+    const time =
+        document.createElement("span");
+
+    time.className = "message-time";
+
+    time.textContent =
+        new Date().toLocaleTimeString(
+            "en-GB",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    message.appendChild(textElement);
+
+    message.appendChild(time);
+
+    messagesContainer.appendChild(message);
+
+    messagesContainer.scrollTop =
+        messagesContainer.scrollHeight;
+}
+
+
+/* =========================================================
+   START RECORDING
+   ========================================================= */
+
+async function startRecording() {
+
+    try {
+
+        stream =
+            await navigator.mediaDevices.getUserMedia({
+                audio: true
+            });
+
+    }
+
+    catch (error) {
+
+        setStatus(
+            "",
+            "Microphone access was denied"
+        );
+
+        showToast(
+            "Please allow microphone access in your browser"
+        );
+
+        return;
+    }
+
+
+    audioChunks = [];
+
+
+    mediaRecorder =
+        new MediaRecorder(stream);
+
+
+    mediaRecorder.ondataavailable =
+        event => {
+
+            if (event.data.size > 0) {
+
+                audioChunks.push(
+                    event.data
+                );
+            }
+        };
+
+
+    mediaRecorder.onstop =
+        sendRecording;
+
+
+    mediaRecorder.start();
+
+
+    recording = true;
+
+    recordStart = Date.now();
+
+
+    micIcon.style.display = "none";
+
+    stopIcon.style.display = "block";
+
+
+    setStatus(
+        "recording",
+        "Listening..."
+    );
+
+
+    micButton.setAttribute(
+        "aria-label",
+        "Stop recording"
+    );
+
+
+    timerInterval =
+        setInterval(
+            () => {
+
+                statusTime.textContent =
+                    formatTime(
+                        Date.now() - recordStart
+                    );
+
+            },
+            250
+        );
+}
+
+
+/* =========================================================
+   STOP RECORDING
+   ========================================================= */
+
+function stopRecording() {
+
+    if (
+        mediaRecorder &&
+        recording
+    ) {
+
+        mediaRecorder.stop();
+
+    }
+
+
+    if (stream) {
+
+        stream
+            .getTracks()
+            .forEach(track =>
+                track.stop()
+            );
+    }
+
+
+    recording = false;
+
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    statusTime.textContent = "";
+
+
+    micIcon.style.display = "block";
+
+    stopIcon.style.display = "none";
+
+
+    micButton.setAttribute(
+        "aria-label",
+        "Start recording"
+    );
+}
+
+
+/* =========================================================
+   SEND RECORDING TO FLASK
+   ========================================================= */
+
+async function sendRecording() {
+
+    setStatus(
+        "processing",
+        "Thinking..."
+    );
+
+
+    const audioBlob =
+        new Blob(
+            audioChunks,
+            {
+                type: "audio/webm"
+            }
+        );
+
+
+    const formData =
+        new FormData();
+
+
+    formData.append(
+        "audio",
+        audioBlob,
+        "recording.webm"
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                API_BASE_URL + API_PATH,
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Server error: ${response.status}`
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+
+        const transcript =
+            data.transcript || "";
+
+
+        const reply =
+            data.reply || "";
+
+
+        if (!transcript) {
+
+            addMessage(
+                "system",
+                "I couldn't hear anything. Please try again."
+            );
+
+            setStatus(
+                "",
+                "Ready — tap to speak"
+            );
+
+            return;
+        }
+
+
+        addMessage(
+            "user",
+            transcript
+        );
+
+
+        addMessage(
+            "ai",
+            reply
+        );
+
+
+        if (
+            voiceEnabled &&
+            data.audio_base64
+        ) {
+
+            await playAudio(
+                data.audio_base64
+            );
+
+        }
+
+        else {
+
+            setStatus(
+                "",
+                "Ready — tap to speak"
+            );
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+
+        setStatus(
+            "",
+            "Something went wrong"
+        );
+
+
+        addMessage(
+            "system",
+            "Unable to connect to the assistant. Please try again."
+        );
+
+
+        showToast(
+            "Connection error"
+        );
+
+
+        setTimeout(
+            () => {
+
+                setStatus(
+                    "",
+                    "Ready — tap to speak"
+                );
+
+            },
+            1800
+        );
+    }
+}
+
+
+/* =========================================================
+   PLAY AI AUDIO
+   ========================================================= */
+
+async function playAudio(base64Audio) {
+
+    setStatus(
+        "speaking",
+        "Speaking..."
+    );
+
+
+    const audio =
+        new Audio(
+            "data:audio/mp3;base64," +
+            base64Audio
+        );
+
+
+    audio.onended =
+        () => {
+
+            setStatus(
+                "",
+                "Ready — tap to speak"
+            );
+
+        };
+
+
+    audio.onerror =
+        () => {
+
+            setStatus(
+                "",
+                "Ready — tap to speak"
+            );
+
+        };
+
+
+    try {
+
+        await audio.play();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        setStatus(
+            "",
+            "Ready — tap to speak"
+        );
+    }
+}
+
+
+/* =========================================================
+   MICROPHONE BUTTON
+   ========================================================= */
+
+micButton.addEventListener(
+    "click",
+    () => {
+
+        if (recording) {
+
+            stopRecording();
+
+        }
+
+        else {
+
+            startRecording();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   NEW CONVERSATION
+   ========================================================= */
+
+async function newConversation() {
+
+    try {
+
+        await fetch(
+            API_BASE_URL + RESET_PATH,
+            {
+                method: "POST"
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Reset error:",
+            error
+        );
+    }
+
+
+    messagesContainer.innerHTML = "";
+
+
+    const newEmptyState =
+        document.createElement("div");
+
+    newEmptyState.className =
+        "empty-state";
+
+
+    newEmptyState.innerHTML = `
+
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+        >
+            <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h7A2.5 2.5 0 0 1 16 5.5v5A2.5 2.5 0 0 1 13.5 13h-4L6 16v-3.2a2.5 2.5 0 0 1-2-2.45v-4.85Z"/>
+            <path d="M16 8h1.5A2.5 2.5 0 0 1 20 10.5v5A2.5 2.5 0 0 1 17.5 18h-1.8L13 20v-2"/>
+        </svg>
+
+        <div class="empty-title">
+            No conversation yet
+        </div>
+
+        <div class="empty-description">
+            Tap the microphone to get started.
+        </div>
+
+    `;
+
+
+    messagesContainer.appendChild(
+        newEmptyState
+    );
+
+
+    setStatus(
+        "",
+        "Ready — tap to speak"
+    );
+
+
+    showToast(
+        "New conversation started"
+    );
+}
+
+
+newChatBtn.addEventListener(
+    "click",
+    newConversation
+);
+
+
+/* =========================================================
+   CLEAR CONVERSATION
+   ========================================================= */
+
+clearConversationBtn.addEventListener(
+    "click",
+    async () => {
+
+        await newConversation();
+
+        closeSettings();
+
+    }
+);
+
+
+/* =========================================================
+   TEST MICROPHONE
+   ========================================================= */
+
+testMicBtn.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            const testStream =
+                await navigator.mediaDevices
+                    .getUserMedia({
+                        audio: true
+                    });
+
+
+            testStream
+                .getTracks()
+                .forEach(track =>
+                    track.stop()
+                );
+
+
+            showToast(
+                "Microphone is working ✓"
+            );
+
+        }
+
+        catch (error) {
+
+            showToast(
+                "Microphone access is unavailable"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD SHORTCUT
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.code === "Space" &&
+            event.target.tagName !== "INPUT" &&
+            event.target.tagName !== "TEXTAREA"
+        ) {
+
+            event.preventDefault();
+
+            micButton.click();
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
