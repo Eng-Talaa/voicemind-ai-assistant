@@ -1,0 +1,5 @@
+Flask
+cohere
+openai-whisper
+gTTS
+python-dotenv
